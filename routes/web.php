@@ -12,12 +12,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/tableau-de-bord', [AdminController::class, 'index'])
         ->name('dashboard');
 });
-Route::get('/', [PageController::class, 'accueil']);
-
+Route::get('/', [PageController::class, 'accueil'])
+    ->name('accueil');
 Route::get('/a-propos', [PageController::class, 'aPropos'])
     ->name('a-propos');
 
 Route::resource('contenus', ContenuController::class);
-Route::get('/liste-contenus/{tri?}', function ($tri = 'recent') {
-    return 'Tri : ' . $tri;
-});
+Route::get('/liste-contenus', [ContenuController::class, 'index'])
+    ->name('liste-contenus');
