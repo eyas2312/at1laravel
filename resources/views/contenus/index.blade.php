@@ -21,6 +21,19 @@
                 <strong>Auteur :</strong>
                 {{ $publication->auteur?->name ?? 'Auteur inconnu' }}
             </p>
+            <p>
+                <strong>Tags :</strong>
+
+                @forelse ($publication->tags as $tag)
+                    <span>{{ $tag->nom }}</span>
+                @empty
+                    <span>Aucun tag</span>
+                @endforelse
+            </p>
+            <p>
+    <strong>Nombre de commentaires :</strong>
+    {{ $publication->commentaires_count }}
+</p>
             <a href="{{ route('contenus.show', $publication->id) }}">
                 Voir les détails
             </a>

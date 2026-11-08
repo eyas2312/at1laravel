@@ -11,10 +11,10 @@ class ContenuController extends Controller
      */
     public function index()
     {
-        $publications = Publication::with(['categorie', 'auteur'])
+        $publications = Publication::with(['categorie', 'auteur', 'tags'])
+            ->withCount('commentaires')
             ->latest()
             ->paginate(9);
-
         return view('contenus.index', ['publications' => $publications]);
     }
 

@@ -25,4 +25,9 @@ class Publication extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    // Une publication peut avoir plusieurs tags
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }
