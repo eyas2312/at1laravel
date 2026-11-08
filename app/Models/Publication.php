@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Publication extends Model
 {
-    use HasFactory, SoftDeletes;    
-    // Une publication appartient à une catégorie
+       use HasFactory, SoftDeletes;
+    protected $fillable = ['titre', 'contenu', 'user_id', 'categorie_id']; // Une publication appartient à une catégorie
     public function categorie()
     {
         return $this->belongsTo(Categorie::class);

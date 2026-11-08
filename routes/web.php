@@ -5,9 +5,7 @@ use App\Http\Controllers\ContenuController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 
-Route::get('/categories', [CategoryController::class, 'index'])
-    ->name('categories.index');
-
+Route::resource('categories', CategoryController::class)->except(['show']);
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/tableau-de-bord', [AdminController::class, 'index'])
         ->name('dashboard');

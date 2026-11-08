@@ -18,9 +18,19 @@
 
     <main class="conteneur">
 
-        @yield('contenu')
+    @if (session('succes'))
+        <div class="alerte alerte-succes">
+            {{ session('succes') }}
+        </div>
+    @endif
+@if (session('erreur'))
+    <div class="alerte alerte-erreur">
+        {{ session('erreur') }}
+    </div>
+@endif
+    @yield('contenu')
 
-    </main>
+</main>
 
     @include('partials.pied-de-page')
 

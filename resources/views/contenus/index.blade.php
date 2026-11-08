@@ -5,7 +5,7 @@
 @section('contenu')
 
     <h1>Publications multimédias</h1>
-
+<a href="{{ route('contenus.create') }}">Ajouter une publication</a>
     @forelse ($publications as $publication)
 
         <x-carte :titre="$publication->titre">
@@ -36,7 +36,21 @@
 </p>
             <a href="{{ route('contenus.show', $publication->id) }}">
                 Voir les détails
-            </a>
+            </a><br>
+            <a href="{{ route('contenus.edit', $publication->id) }}">
+       Modifier
+</a>
+<form action="{{ route('contenus.destroy', $publication->id) }}" method="POST">
+
+    @csrf
+    @method('DELETE')
+
+    <button type="submit"
+        onclick="return confirm('Voulez-vous vraiment supprimer cette publication ?')">
+        Supprimer
+    </button>
+
+</form>
         </x-carte>
 
     @empty
