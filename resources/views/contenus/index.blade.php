@@ -4,18 +4,34 @@
 
 @section('contenu')
 
-    <h1>Contenus multimédias</h1>
+    <h1>Publications multimédias</h1>
 
-    @forelse ($contenus as $contenu)
+    @forelse ($publications as $publication)
 
-        <x-carte :titre="$contenu->titre">
-            <p>{{ $contenu->description }}</p>
+        <x-carte :titre="$publication->titre">
+
+            <p>{{ $publication->contenu }}</p>
+
+            <p>
+                <strong>Catégorie :</strong>
+                {{ $publication->categorie?->nom ?? 'Sans catégorie' }}
+            </p>
+
+            <p>
+                <strong>Auteur :</strong>
+                {{ $publication->auteur?->name ?? 'Auteur inconnu' }}
+            </p>
+            <a href="{{ route('contenus.show', $publication->id) }}">
+                Voir les détails
+            </a>
         </x-carte>
 
     @empty
 
-        <p>Aucun contenu disponible pour le moment.</p>
+        <p>Aucune publication disponible pour le moment.</p>
 
     @endforelse
+
+    {{ $publications->links() }}
 
 @endsection
