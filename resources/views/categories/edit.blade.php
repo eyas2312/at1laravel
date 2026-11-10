@@ -5,7 +5,13 @@
 @section('contenu')
 
     <h1>Modifier la catégorie</h1>
-
+@if ($errors->any())
+    <ul class="erreurs">
+        @foreach ($errors->all() as $erreur)
+            <li>{{ $erreur }}</li>
+        @endforeach
+    </ul>
+@endif
     <form action="{{ route('categories.update', $category->id) }}" method="POST">
 
         @csrf
@@ -20,6 +26,9 @@
                 value="{{ old('nom', $category->nom) }}"
                 required
             >
+            @error('nom')
+    <span class="erreur-champ">{{ $message }}</span>
+@enderror
         </div>
 
         <div>

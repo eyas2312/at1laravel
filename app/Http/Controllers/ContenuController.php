@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Publication;
 use App\Models\Categorie;
+use App\Http\Requests\StorePublicationRequest;
+use App\Http\Requests\UpdatePublicationRequest;
+
 class ContenuController extends Controller
 {
     /**
@@ -32,15 +34,13 @@ class ContenuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-   public function store(Request $request)
+ public function store(StorePublicationRequest $request)
 {
-    $publication = Publication::create([
-        'titre' => $request->input('titre'),
-        'contenu' => $request->input('contenu'),
-        'categorie_id' => $request->input('categorie_id'),
-        'user_id' => 1,
-    ]);
+    $donnees = $request->validated();
 
+$publication = new Publication($donnees);
+$publication->user_id = 1;
+$publication->save();
     return redirect()->route('contenus.show', $publication)
         ->with('succes', 'Publication créée avec succès.');
 }
@@ -71,13 +71,10 @@ class ContenuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-  public function update(Request $request, Publication $contenu)
+
+public function update(UpdatePublicationRequest $request, Publication $contenu)
 {
-    $contenu->update([
-        'titre' => $request->input('titre'),
-        'contenu' => $request->input('contenu'),
-        'categorie_id' => $request->input('categorie_id'),
-    ]);
+    $contenu->update($request->validated());
 
     return redirect()->route('contenus.show', $contenu)
         ->with('succes', 'Publication mise à jour avec succès.');

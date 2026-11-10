@@ -5,7 +5,13 @@
 @section('contenu')
 
     <h1>Ajouter une catégorie</h1>
-
+    @if ($errors->any())
+    <ul class="erreurs">
+        @foreach ($errors->all() as $erreur)
+            <li>{{ $erreur }}</li>
+        @endforeach
+    </ul>
+@endif
     <form action="{{ route('categories.store') }}" method="POST">
 
         @csrf
@@ -19,6 +25,9 @@
                 value="{{ old('nom') }}"
                 required
             >
+            @error('nom')
+    <span class="erreur-champ">{{ $message }}</span>
+@enderror
         </div>
 
         <div>

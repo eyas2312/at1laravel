@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Categorie;
-
+use App\Http\Requests\StoreCategorieRequest;
+use App\Http\Requests\UpdateCategorieRequest;
 class CategoryController extends Controller
 {
     public function index()
@@ -23,16 +23,20 @@ public function store(Request $request)
 
     return redirect()->route('categories.index')
         ->with('succes', 'Catégorie créée avec succès.');
-}public function edit(Categorie $category)
+}
+public function edit(Categorie $category)
 {
     return view('categories.edit', compact('category'));
-}public function update(Request $request, Categorie $category)
+}
+
+public function update(UpdateCategorieRequest $request, Categorie $category)
 {
-    $category->update($request->only('nom', 'description'));
+    $category->update($request->validated());
 
     return redirect()->route('categories.index')
         ->with('succes', 'Catégorie mise à jour avec succès.');
 }
+
 public function destroy(Categorie $category)
 {
     if ($category->publications()->exists()) {

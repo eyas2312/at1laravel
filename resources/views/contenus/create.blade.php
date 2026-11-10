@@ -5,7 +5,13 @@
 @section('contenu')
 
     <h1>Ajouter une publication</h1>
-
+@if ($errors->any())
+    <ul class="erreurs">
+        @foreach ($errors->all() as $erreur)
+            <li>{{ $erreur }}</li>
+        @endforeach
+    </ul>
+@endif
     <form action="{{ route('contenus.store') }}" method="POST">
 
         @csrf
@@ -19,6 +25,10 @@
                 value="{{ old('titre') }}"
                 required
             >
+@error('titre')
+    <span class="erreur-champ">{{ $message }}</span>
+@enderror
+
         </div>
 
         <div>
@@ -28,6 +38,9 @@
                 name="contenu"
                 required
             >{{ old('contenu') }}</textarea>
+            @error('contenu')
+    <span class="erreur-champ">{{ $message }}</span>
+@enderror
         </div>
 
         <div>
@@ -39,6 +52,9 @@
                     </option>
                 @endforeach
             </select>
+            @error('categorie_id')
+    <span class="erreur-champ">{{ $message }}</span>
+@enderror
         </div>
 
         <button type="submit">Enregistrer</button>
