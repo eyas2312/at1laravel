@@ -6,6 +6,7 @@ use App\Models\Publication;
 use App\Models\Categorie;
 use App\Http\Requests\StorePublicationRequest;
 use App\Http\Requests\UpdatePublicationRequest;
+use Illuminate\Support\Facades\Gate;
 
 class ContenuController extends Controller
 {
@@ -34,13 +35,14 @@ class ContenuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
- public function store(StorePublicationRequest $request)
+public function store(StorePublicationRequest $request)
 {
     $donnees = $request->validated();
 
-$publication = new Publication($donnees);
-$publication->user_id = 1;
-$publication->save();
+    $publication = new Publication($donnees);
+    $publication->user_id = auth()->id();
+    $publication->save();
+
     return redirect()->route('contenus.show', $publication)
         ->with('succes', 'Publication créée avec succès.');
 }
@@ -74,6 +76,7 @@ $publication->save();
 
 public function update(UpdatePublicationRequest $request, Publication $contenu)
 {
+    Gate::authorize('update', $contenu);
     $contenu->update($request->validated());
 
     return redirect()->route('contenus.show', $contenu)
@@ -83,8 +86,10 @@ public function update(UpdatePublicationRequest $request, Publication $contenu)
     /**
      * Remove the specified resource from storage.
      */
-  public function destroy(Publication $contenu)
+public function destroy(Publication $contenu)
 {
+    Gate::authorize('delete', $contenu);
+
     $contenu->delete();
 
     return redirect()->route('contenus.index')

@@ -19,7 +19,26 @@
         <strong>Auteur :</strong>
         {{ $publication->auteur?->name ?? 'Auteur inconnu' }}
     </p>
+@can('update', $publication)
+    <a href="{{ route('contenus.edit', $publication) }}">
+        Modifier
+    </a>
+@endcan
 
+@can('delete', $publication)
+    <form action="{{ route('contenus.destroy', $publication) }}"
+          method="POST">
+        @csrf
+        @method('DELETE')
+
+        <button type="submit"
+                onclick="return confirm('Voulez-vous vraiment supprimer cette publication ?')">
+            Supprimer
+        </button>
+    </form>
+@endcan
+
+<hr>
     <hr>
 
     <h2>Commentaires</h2>
