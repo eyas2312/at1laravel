@@ -17,7 +17,9 @@ class StorePublicationRequest extends FormRequest
             'titre' => 'required|string|min:10|max:200|unique:publications,titre',
             'contenu' => 'required|string|min:10',
             'categorie_id' => 'required|exists:categories,id',
-        ];
+            'image' => 'nullable|file|image|max:2048',
+            'fichier_media' => 'nullable|file|mimes:mp3,mp4,wav|max:20480',]
+        ;
     }
     public function messages(): array
 {

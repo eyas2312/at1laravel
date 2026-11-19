@@ -12,8 +12,7 @@
         @endforeach
     </ul>
 @endif
-    <form action="{{ route('contenus.store') }}" method="POST">
-
+<form action="{{ route('contenus.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div>
@@ -56,7 +55,21 @@
     <span class="erreur-champ">{{ $message }}</span>
 @enderror
         </div>
+<div>
+    <label for="image">Image :</label>
+    <input type="file" name="image" id="image" accept="image/*">
+    @error('image')
+        <span class="erreur-champ">{{ $message }}</span>
+    @enderror
+</div>
 
+<div>
+    <label for="fichier_media">Fichier audio ou vidéo :</label>
+    <input type="file" name="fichier_media" id="fichier_media" accept="audio/*,video/*">
+    @error('fichier_media')
+        <span class="erreur-champ">{{ $message }}</span>
+    @enderror
+</div>
         <button type="submit">Enregistrer</button>
 
     </form>

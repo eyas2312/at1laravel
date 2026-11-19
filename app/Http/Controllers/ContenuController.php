@@ -7,6 +7,7 @@ use App\Models\Categorie;
 use App\Http\Requests\StorePublicationRequest;
 use App\Http\Requests\UpdatePublicationRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class ContenuController extends Controller
 {
@@ -39,11 +40,26 @@ public function store(StorePublicationRequest $request)
 {
     $donnees = $request->validated();
 
+    if ($request->hasFile('image')) {
+        $donnees['image'] = $request->file('image')
+            ->store('publications', 'public');
+    }
+
+    if ($request->hasFile('fichier_media')) {
+        $fichier = $request->file('fichier_media');
+
+        $donnees['fichier_media'] = $fichier->store('medias', 'public');
+
+        $donnees['type_media'] = str_starts_with(
+            $fichier->getMimeType(),
+            'audio'
+        ) ? 'audio' : 'video';
+    }
+
     $publication = new Publication($donnees);
     $publication->user_id = auth()->id();
     $publication->save();
-
-    return redirect()->route('contenus.show', $publication)
+    return redirect()->route('contenus.index')
         ->with('succes', 'Publication créée avec succès.');
 }
 
@@ -77,7 +93,19 @@ public function store(StorePublicationRequest $request)
 public function update(UpdatePublicationRequest $request, Publication $contenu)
 {
     Gate::authorize('update', $contenu);
-    $contenu->update($request->validated());
+
+    $donnees = $request->validated();
+
+    if ($request->hasFile('image')) {
+        if ($contenu->image) {
+            Storage::disk('public')->delete($contenu->image);
+        }
+
+        $donnees['image'] = $request->file('image')
+            ->store('publications', 'public');
+    }
+
+    $contenu->update($donnees);
 
     return redirect()->route('contenus.show', $contenu)
         ->with('succes', 'Publication mise à jour avec succès.');

@@ -7,7 +7,24 @@
     <h1>{{ $publication->titre }}</h1>
 
     <p>{{ $publication->contenu }}</p>
+@if ($publication->image)
+    <div>
+        <img
+            src="{{ Storage::url($publication->image) }}"
+            alt="{{ $publication->titre }}"
+            style="max-width: 400px;"
+        >
+    </div>
+@endif
 
+@if ($publication->type_media === 'audio')
+    <audio controls src="{{ Storage::url($publication->fichier_media) }}">
+    </audio>
+@elseif ($publication->type_media === 'video')
+    <video controls style="max-width: 500px;"
+           src="{{ Storage::url($publication->fichier_media) }}">
+    </video>
+@endif
     <hr>
 
     <p>
