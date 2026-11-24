@@ -21,7 +21,7 @@ class UpdatePublicationRequest extends FormRequest
                 'min:10',
                 'max:200',
                 Rule::unique('publications', 'titre')
-                    ->ignore($this->route('contenu')),
+                    ->ignore($this->route('publication')),
             ],
             'contenu' => 'required|string|min:20',
             'categorie_id' => 'required|exists:categories,id',

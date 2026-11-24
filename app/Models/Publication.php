@@ -14,6 +14,7 @@ protected $fillable = [
     'titre',
     'contenu',
     'categorie_id',
+    'user_id',
     'image',
     'fichier_media',
     'type_media'
