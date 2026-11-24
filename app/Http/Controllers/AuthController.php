@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -9,13 +7,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Afficher le formulaire d'inscription
     public function inscription()
     {
         return view('auth.inscription');
     }
 
-    // Enregistrer un nouvel utilisateur
     public function enregistrer(Request $request)
     {
         $request->validate([
@@ -35,13 +31,11 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    // Afficher le formulaire de connexion
     public function connexion()
     {
         return view('auth.connexion');
     }
 
-    // Connecter un utilisateur
     public function authentifier(Request $request)
     {
         $credentials = $request->validate([
@@ -60,7 +54,6 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    // Déconnecter un utilisateur
     public function deconnexion(Request $request)
     {
         Auth::logout();
